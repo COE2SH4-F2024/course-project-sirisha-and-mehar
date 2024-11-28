@@ -8,8 +8,17 @@
 using namespace std;
 
 #define DELAY_CONST 100000
+// added for iteration 0 (same size as ppas)
+//# define HEIGHT 10
+//# define WIDTH 20
 
-bool exitFlag;
+
+Player *myPlayer; // points to player 
+GameMechs *myGM; // pointers to gamemechs 
+
+
+// bool exitFlag; // dont need to expose here bc it is already in game mechanics but we can access game mechanices
+// using myGM and get the exitflag
 
 Player *myPlayer; //instantiating player as pointer
 //on the heap 
@@ -21,14 +30,14 @@ void DrawScreen(void);
 void LoopDelay(void);
 void CleanUp(void);
 
-
+// initalize the pointers 
 
 int main(void)
 {
 
     Initialize();
 
-    while(exitFlag == false)  
+    while(myGM->getExitFlagStatus() == false)  // while the exist flag is not initalized you have to keep incrementign
     {
         GetInput();
         RunLogic();
@@ -50,16 +59,24 @@ void Initialize(void)
     exitFlag = false;
     //put pointers under inirialize function
     //myGM
+    //exitFlag = false;
+    myGM = new GameMechs(); // default game mechs so we alwasy have the same dimentions 30x15
+    myPlayer = new Player(myGM); // my player keeps track of the pointer myGM
 }
 
 void GetInput(void)
 {
-   
+   // get the input from the myGm object 
+   // .input = myGM->getInput(); 
 }
 
 void RunLogic(void)
 {
     //myPlayer->movePlayer();
+// have to come back with 1A content and use getter methid for input char, 
+// choosing corr action , then clearing using the myGM pointer pointng to gamemechs
+// add ppa2 switch case and add use the pointer for reference on input and then clearing it
+ 
     
 }
 
@@ -74,6 +91,33 @@ void DrawScreen(void)
     MacUILib_printf("Player[x,y]=[%d,%d], %c",playerPos.pos->x, playerPos.pos->y, playerPos.symbol);
     // using macuilib stll because here its asynhronous input system so not using cout yet
 
+    MacUILib_clearScreen();   
+    // draw the board here  
+    // adding for iteration 0 
+    for (int i=0; i<15; i++)
+    {
+        for (int j=0; j<30; j++) 
+        { 
+            
+            if (j==0 || i==15-1 || i==0 ||j==30-1) // this is where the border should be
+            {
+                MacUILib_printf("#");
+                
+             
+            }
+            else if (j==5&&i==6 || j==9&&i==9 ||j==6&&i==4 ||j==2&&i==1)
+            {
+                MacUILib_printf("*");
+            }
+            else 
+            {
+                MacUILib_printf(" "); // empty space for the rest 
+                
+            }
+        
+        }
+        MacUILib_printf("\n"); // new line before next row starts 
+    }
 }
 
 void LoopDelay(void)
@@ -90,4 +134,5 @@ void CleanUp(void)
     //delete pointers!!  
 
     MacUILib_uninit();
+    // delete pointers initalized in the beggining
 }

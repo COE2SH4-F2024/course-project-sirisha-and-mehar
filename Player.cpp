@@ -14,6 +14,20 @@ Player::Player(GameMechs* thisGMRef)//*we asume gamechanics is the border for no
 
 
     
+
+    
+    // get player position playerPos.pos->x = mainGameMechsRef->getBoardSizeX()/2; //pos was a ptr to stuct 
+    // playerPos.pos->y = mainGameMechsRef->getBoardSizeX()/2;
+    // playerPos.symbol = "@"
+    
+
+    // now that we have impleemnted gamemechs we can get the boardsize of x and y and the symbol
+    // this can be used to find the position of the player and the symbol of the player
+
+    //playerPos.pos->x = mainGameMechsRef->getBoardSizeX()/2;
+    //playerPos.pos->y = mainGameMechsRef->getBoardSizeX()/2;
+    //playerPos.symbol = '*';
+
 }
 
 
