@@ -15,7 +15,7 @@ class GameMechs
         char input;
         bool exitFlag;
         bool loseFlag;
-        int score;
+        int score;;
 
         int boardSizeX;
         int boardSizeY;
@@ -32,7 +32,7 @@ class GameMechs
         bool getLoseFlagStatus() const;
         void setLoseFlag();
 
-        char getInput() const;
+        char getInput() ;
         void setInput(char this_input);
         void clearInput();
 
