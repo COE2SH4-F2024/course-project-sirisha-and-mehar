@@ -1,4 +1,5 @@
 #include "GameMechs.h"
+#include "MacUILib.h"
 
 GameMechs::GameMechs()
 {
@@ -27,9 +28,17 @@ bool GameMechs::getLoseFlagStatus() const
 }
     
 
-char GameMechs::getInput() const
+char GameMechs::getInput() //remove const here to avoid errors 
 {
+    if (MacUILib_hasChar())
+    {
+        input = MacUILib_getChar();
+    }
 
+    if (input == ' ')exitFlag=true;
+
+    return input;
+    //ppa3/ppa2 code above 
 }
 
 int GameMechs::getScore() const
