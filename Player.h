@@ -17,6 +17,12 @@ class Player
     
     public:
         enum Dir {UP, DOWN, LEFT, RIGHT, STOP};  // This is the direction state
+        //struct objPosition //objPosition before
+        //{
+            //int x; //x cooridnate of the object
+            //int y; // y coordinate of the object 
+            //char symbol; // The ASCII symbol of the object about to be drawn on the screen 
+        //};
 
         Player(GameMechs* thisGMRef);
         ~Player();

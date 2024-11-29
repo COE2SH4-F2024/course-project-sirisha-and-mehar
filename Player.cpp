@@ -49,26 +49,35 @@ void Player::updatePlayerDir()
 {
         // PPA3 input processing logic  
         //copy ppa2 move direction player thing  
-    switch (myGm->getInput()) {
-        case 27:  // exit, if esc pressed 
+    //switch (myGm->getInput()) {
+    //    case 27:  // exit, if esc pressed 
+    //copy ppa2 move direction player thing  
+    char input = mainGameMechsRef->getInput();
+    // PPA3 input processing logic  
+    switch (input) {
+        //case 27:  // exit, if esc pressed 
                 
-            MacUILib_printf("You have left the game!\n"); //display if we esp out of the game
-            MacUILib_Delay(1000000);
-            exitFlag = 1; 
-            currentdirection = STOP; // current state
-            break;
+            //MacUILib_printf("You have left the game!\n"); //display if we esp out of the game
+            //MacUILib_Delay(1000000);
+            //exitFlag = 1; 
+            //myDir = STOP; // current state
+            //break;
 
         case 'W': case 'w':
-            currentdirection = UP;
+            if (myDir != UP&& myDir !=DOWN)
+                myDir=UP;
             break;
         case 'A': case 'a':
-            currentdirection = LEFT;
+            if (myDir != RIGHT&& myDir !=LEFT)
+                myDir=LEFT;
             break;
         case 'S': case 's':
-            currentdirection = DOWN;
+            if (myDir != UP&& myDir !=DOWN)
+                myDir = DOWN;
             break;
         case 'D': case 'd':
-            currentdirection = RIGHT;
+            if (myDir != RIGHT&& myDir !=LEFT)
+                myDir=RIGHT;
             break;
 
     }
@@ -77,22 +86,34 @@ void Player::updatePlayerDir()
 void Player::movePlayer()
 {
     // PPA3 Finite State Machine logic
-    switch (currentdirection) {
+    switch (myDir) {
         case UP:
-            player.y = (player.y - 1 + BOARD_HEIGHT) % BOARD_HEIGHT;
-            if (player.y == 0) player.y = BOARD_HEIGHT - 2;
+            playerPos.pos->y--;
+            if (playerPos.pos->y<=0)//Wraparound Logic
+                playerPos.pos-> y = mainGameMechsRef->getBoardSizeY()-2;
+            //player.y = (player.y - 1 + BOARD_HEIGHT) % BOARD_HEIGHT;
+            //if (player.y == 0) player.y = BOARD_HEIGHT - 2;
             break;
         case DOWN:
-            player.y = (player.y + 1) % BOARD_HEIGHT;
-            if (player.y == BOARD_HEIGHT - 1) player.y = 1;
+            playerPos.pos->y++;
+            if (playerPos.pos->y>= mainGameMechsRef->getBoardSizeY())//Wraparound Logic
+                playerPos.pos->y =1;
+            //player.y = (player.y + 1) % BOARD_HEIGHT;
+            //if (player.y == BOARD_HEIGHT - 1) player.y = 1;
             break;
         case LEFT:
-            player.x = (player.x - 1 + BOARD_WIDTH) % BOARD_WIDTH;
-            if (player.x == 0) player.x = BOARD_WIDTH - 2;
+            playerPos.pos->x--;
+            if (playerPos.pos->x<=0)//Wraparound Logic
+                playerPos.pos-> x = mainGameMechsRef->getBoardSizeX()-2;
+            //player.x = (player.x - 1 + BOARD_WIDTH) % BOARD_WIDTH;
+            //if (player.x == 0) player.x = BOARD_WIDTH - 2;
             break;
         case RIGHT:
-            player.x = (player.x + 1) % BOARD_WIDTH;
-            if (player.x == BOARD_WIDTH - 1) player.x = 1;
+            playerPos.pos->x++;
+            if (playerPos.pos->x>=mainGameMechsRef->getBoardSizeX())//Wraparound Logic
+                playerPos.pos-> x = 1;
+            //player.x = (player.x + 1) % BOARD_WIDTH;
+            //if (player.x == BOARD_WIDTH - 1) player.x = 1;
             break;
         default:
             break;

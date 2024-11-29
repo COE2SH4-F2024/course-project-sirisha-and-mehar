@@ -79,7 +79,6 @@ void GameMechs::incrementScore()
 int GameMechs::getBoardSizeX() const
 {
     return boardSizeX;
-
 }
 
 int GameMechs::getBoardSizeY() const
@@ -124,6 +123,7 @@ void GameMechs::generateFood(objPos blockOff)
     // Use random number generator function, rand(), to generate a random x-y coordinate and a random choice of character from the Goal String as the ASCII character symbol.
     //      The x and y coordinate range should fall within the xRange and yRange limits, which should be the x- and y-dimension of the board size.
     // This will then be a candidate of the randomly generated Item to be placed on the game board.
+    /*
     srand(time(NULL)); 
 
     int oldCords[yRange][xRange];
@@ -193,6 +193,7 @@ void GameMechs::generateFood(objPos blockOff)
             }
         }
     }
+    */
 }
 
 // getter method to get food position
