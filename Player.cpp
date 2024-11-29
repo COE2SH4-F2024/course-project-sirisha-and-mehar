@@ -49,7 +49,7 @@ void Player::updatePlayerDir()
 {
         // PPA3 input processing logic  
         //copy ppa2 move direction player thing  
-    switch (input) {
+    switch (myGm->getInput()) {
         case 27:  // exit, if esc pressed 
                 
             MacUILib_printf("You have left the game!\n"); //display if we esp out of the game

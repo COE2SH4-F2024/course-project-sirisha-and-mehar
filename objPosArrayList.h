@@ -15,6 +15,8 @@ class objPosArrayList
     public:
         objPosArrayList(); // default constructor
         ~objPosArrayList(); // destuctor 
+        objPosArrayList(const objPosArrayList &l); // copy assignment constructor
+         
 
         int getSize() const;
         void insertHead(objPos thisPos);

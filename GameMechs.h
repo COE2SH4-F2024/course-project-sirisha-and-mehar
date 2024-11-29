@@ -32,7 +32,7 @@ class GameMechs
         bool getLoseFlagStatus() const;
         void setLoseFlag();
 
-        char getInput() ;
+        char getInput();
         void setInput(char this_input);
         void clearInput();
 
