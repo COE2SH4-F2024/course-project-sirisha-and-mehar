@@ -2,7 +2,7 @@
 
 // Check lecture contents on general purpose array list construction, 
 // and modify it to support objPos array list construction.
-#include "objPosArrayList.h"
+
 
 // Paste your Tested implementation here.
 // Paste your Tested implementation here.
@@ -11,9 +11,10 @@
 objPosArrayList::objPosArrayList()
 {
     // constructor
+    arrayCapacity = ARRAY_MAX_CAP; // 200
     aList = new objPos[ARRAY_MAX_CAP]; // create a 200 size array on heap
     listSize = 0;
-    arrayCapacity = ARRAY_MAX_CAP; // 200
+    
     
 }
 
@@ -47,6 +48,7 @@ int objPosArrayList::getSize() const
 void objPosArrayList::insertHead(objPos thisPos)
 {
     if (listSize >= ARRAY_MAX_CAP) return;
+    
     for(int i = listSize; i>0; i--)
     {
         aList[i] = aList[i-1];
@@ -58,6 +60,7 @@ void objPosArrayList::insertHead(objPos thisPos)
 void objPosArrayList::insertTail(objPos thisPos)
 {
     if (listSize >= arrayCapacity) return; // dont increment, error checking 
+  
     aList[listSize++] = thisPos; 
     //listSize ++; 
 }
@@ -65,6 +68,7 @@ void objPosArrayList::insertTail(objPos thisPos)
 void objPosArrayList::removeHead()
 {
     if(listSize == 0) return;
+   
     for(int i=0;i<listSize-1;i++)
     {
         aList[i] = aList[i+1];
@@ -74,8 +78,10 @@ void objPosArrayList::removeHead()
 
 void objPosArrayList::removeTail()
 {
-    if(listSize>0)
-        listSize--; 
+    if(listSize==0) 
+    return;
+    
+    listSize--; 
 }
 
 objPos objPosArrayList::getHeadElement() const
@@ -85,15 +91,19 @@ objPos objPosArrayList::getHeadElement() const
 
 objPos objPosArrayList::getTailElement() const
 {
+    if (listSize==0) //return;
+    {
+
+    }
     return aList[listSize-1]; 
 }
 
 objPos objPosArrayList::getElement(int index) const
 {
-    if(index<0) 
-        index = 0;
-    else if(index>=listSize) 
-        index = listSize - 1; 
+    //if(index<0) 
+     //   index = 0;
+   // else if(index>=listSize) 
+    //    index = listSize - 1; 
     return aList[index];
     
 }

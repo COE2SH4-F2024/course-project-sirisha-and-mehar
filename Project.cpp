@@ -85,7 +85,7 @@ void DrawScreen(void)
     MacUILib_clearScreen();  
     //you will need to implement a copy assignment operator
     //to make this lien work
-    objectPos playerPos = myPlayer->getPLayerPos();
+    objPos playerPos = myPlayer->getPlayerPos();
 
     //put ppa3 board drawing function in here  
     MacUILib_printf("Player[x,y]=[%d,%d], %c",playerPos.pos->x, playerPos.pos->y, playerPos.symbol);
