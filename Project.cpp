@@ -20,7 +20,7 @@ GameMechs *myGM; // pointers to gamemechs
 // bool exitFlag; // dont need to expose here bc it is already in game mechanics but we can access game mechanices
 // using myGM and get the exitflag
 
-Player *myPlayer; //instantiating player as pointer
+//Player *myPlayer; //instantiating player as pointer
 //on the heap 
 
 void Initialize(void);
@@ -56,7 +56,7 @@ void Initialize(void)
 
     myPlayer = new Player(nullptr); 
     //keepign it nullptr to test features
-    exitFlag = false;
+    //exitFlag = false;
     //put pointers under inirialize function
     //myGM
     //exitFlag = false;
@@ -85,7 +85,7 @@ void DrawScreen(void)
     MacUILib_clearScreen();  
     //you will need to implement a copy assignment operator
     //to make this lien work
-    objectPos playerPos = myPlayer->getPLayerPos();
+    objPos playerPos = myPlayer->getPlayerPos();
 
     //put ppa3 board drawing function in here  
     MacUILib_printf("Player[x,y]=[%d,%d], %c",playerPos.pos->x, playerPos.pos->y, playerPos.symbol);

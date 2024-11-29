@@ -57,19 +57,6 @@ char GameMechs::getInput() //remove const here to avoid errors
     {
         input = MacUILib_getChar();
     }
-char GameMechs::getInput()  // need to remove const so that we can take in dff inputs 
-{
-    // same as ppa 2
-    if( MacUILib_hasChar())
-    {
-        input = MacUILib_getChar();
-    }
-    return input; 
-
-    if (input == ' ')exitFlag=true;
-
-    return input;
-    //ppa3/ppa2 code above 
 }
 
 int GameMechs::getScore() const
