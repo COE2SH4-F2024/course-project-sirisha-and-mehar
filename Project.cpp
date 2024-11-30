@@ -54,7 +54,10 @@ void Initialize(void)
     MacUILib_init();
     MacUILib_clearScreen();
 
-    myPlayer = new Player(nullptr); 
+
+    // removed bc it was causing a seg fault
+    //myPlayer = new Player(nullptr);  
+
     //keepign it nullptr to test features
     //exitFlag = false;
     //put pointers under inirialize function
@@ -68,11 +71,17 @@ void GetInput(void)
 {
    // get the input from the myGm object 
    // .input = myGM->getInput(); 
+   //char input = myGM->getInput();
+  
 }
 
 void RunLogic(void)
 {
-    //myPlayer->movePlayer();
+
+    myPlayer->movePlayer();
+    myPlayer->updatePlayerDir();
+    
+    //myGm->getInput(); 
 // have to come back with 1A content and use getter methid for input char, 
 // choosing corr action , then clearing using the myGM pointer pointng to gamemechs
 // add ppa2 switch case and add use the pointer for reference on input and then clearing it
@@ -86,28 +95,31 @@ void DrawScreen(void)
     //you will need to implement a copy assignment operator
     //to make this lien work
     objPos playerPos = myPlayer->getPlayerPos();
-
+    // playerPos.pos->x gets the x value
+    // playerPos.pos->y gets the y value
+    // playerPos.symbl-> gets the symnol
     //put ppa3 board drawing function in here  
-    MacUILib_printf("Player[x,y]=[%d,%d], %c",playerPos.pos->x, playerPos.pos->y, playerPos.symbol);
+    MacUILib_printf("Player[x,y]=[%d,%d], %c\n",playerPos.pos->x, playerPos.pos->y, playerPos.symbol);
     // using macuilib stll because here its asynhronous input system so not using cout yet
 
-    MacUILib_clearScreen();   
+    //MacUILib_clearScreen();   
     // draw the board here  
     // adding for iteration 0 
+    
     for (int i=0; i<15; i++)
     {
         for (int j=0; j<30; j++) 
         { 
             
-            if (j==0 || i==15-1 || i==0 ||j==30-1) // this is where the border should be
+            if (j==0 || i== 15-1 || i==0 ||j==30-1) // this is where the border should be
             {
                 MacUILib_printf("#");
                 
              
             }
-            else if (j==5&&i==6 || j==9&&i==9 ||j==6&&i==4 ||j==2&&i==1)
+            else if (i==playerPos.pos->y && j==playerPos.pos->x)
             {
-                MacUILib_printf("*");
+                MacUILib_printf("%c", playerPos.symbol);
             }
             else 
             {
@@ -118,6 +130,7 @@ void DrawScreen(void)
         }
         MacUILib_printf("\n"); // new line before next row starts 
     }
+    
 }
 
 void LoopDelay(void)

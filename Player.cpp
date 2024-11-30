@@ -9,7 +9,7 @@ Player::Player(GameMechs* thisGMRef)//*we asume gamechanics is the border for no
     // more actions to be included
     //initialzing the first location of your player
     //dynamically allocating the position
-    playerPos.pos= new Pos;
+    playerPos.pos = new Pos;
 
     //setting the intial player position to the center of the board
     playerPos.pos->x = mainGameMechsRef->getBoardSizeX()/2;
@@ -44,6 +44,9 @@ Player::~Player()
     //playerPos.pos = nullptr; // Avoid dangling pointer
 }
 
+
+
+
 objPos Player::getPlayerPos() const
 {
     // return the reference to the playerPos arrray list
@@ -61,6 +64,15 @@ void Player::updatePlayerDir()
     char input = mainGameMechsRef->getInput();
     // PPA3 input processing logic  
     switch (input) {
+        case 27:
+        //myDir = STOP;
+        
+         // esitflag = 1 here
+        mainGameMechsRef->setExitTrue();
+        mainGameMechsRef->getExitFlagStatus();
+        
+        myDir = STOP;
+        break;
         //case 27:  // exit, if esc pressed 
                 
             //MacUILib_printf("You have left the game!\n"); //display if we esp out of the game
@@ -91,6 +103,7 @@ void Player::updatePlayerDir()
 
 void Player::movePlayer()
 {
+    /*
     int boardSizeX = mainGameMechsRef->getBoardSizeX();
     int boardSizeY = mainGameMechsRef->getBoardSizeY(); 
     if (boardSizeX > 0 && boardSizeY > 0) { // Ensure valid board dimensions
@@ -112,6 +125,59 @@ void Player::movePlayer()
                 break;
             }
         }
+    */
+
+    int boardSizeX = mainGameMechsRef->getBoardSizeX();
+    int boardSizeY = mainGameMechsRef->getBoardSizeY(); 
+    if (boardSizeX > 0 && boardSizeY > 0) { // Ensure valid board dimensions
+        switch (myDir) {
+            case UP:
+            if (playerPos.pos->y >1)
+            {
+                playerPos.pos->y -=1;
+            }
+            else
+            {
+                playerPos.pos->y = boardSizeY-2;
+            }
+            break;
+            case DOWN:
+                 if (playerPos.pos->y < boardSizeY-2)
+            {
+                playerPos.pos->y +=1;
+            }
+            else
+            {
+                playerPos.pos->y =1;
+            }
+            break; 
+            case LEFT:
+                if (playerPos.pos->x >1)
+            {
+                playerPos.pos->x -=1;
+            }
+            else
+            {
+                playerPos.pos->x = boardSizeX-2;
+            }
+            break; 
+            case RIGHT:
+                if (playerPos.pos->x <boardSizeX-2)
+            {
+                playerPos.pos->x +=1;
+            }
+            else
+            {
+                playerPos.pos->x = 1;
+            }
+            break; 
+            case STOP:
+            default:
+                break;
+            }
+        }
+
+
     // PPA3 Finite State Machine logic
     //switch (myDir) {
         //case UP:
