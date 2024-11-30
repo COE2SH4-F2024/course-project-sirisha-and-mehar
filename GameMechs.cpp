@@ -13,7 +13,7 @@ GameMechs::GameMechs()
         input=0;
         exitFlag= false;
         loseFlag = false;
-        score = 0;;
+        score = 0;
 
         boardSizeX = 30;
         boardSizeY = 15;
@@ -119,6 +119,21 @@ void GameMechs::clearInput()
 // generate random food positions
 void GameMechs::generateFood(objPos blockOff)
 {
+    /*
+    srand(time(NULL)); // Seed random number generator
+
+    do
+    {
+        // Generate random x and y within board limits
+        food.pos = rand() % boardSizeX;
+        food.pos = rand() % boardSizeY;
+
+        // Optionally, assign a random symbol for the food
+        food.symbol = '@'; // Example: '@' is the food symbol
+    }
+    // Check if the random position is the same as the blockOff position
+    while (food.xPos == blockOff.xPos && food.Ypos == blockOff.Ypos);
+    */
 
     // Use random number generator function, rand(), to generate a random x-y coordinate and a random choice of character from the Goal String as the ASCII character symbol.
     //      The x and y coordinate range should fall within the xRange and yRange limits, which should be the x- and y-dimension of the board size.

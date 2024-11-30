@@ -1,8 +1,9 @@
 #ifndef OBJPOS_H
 #define OBJPOS_H
 
+
 // Not really a C++ thing
-typedef struct 
+typedef struct
 {
     int x;
     int y;
@@ -11,8 +12,8 @@ typedef struct
 class objPos
 {
     public:
-        Pos* pos;        
-        char symbol;
+        Pos* pos; //pointer to store x and y coordinates
+        char symbol; //ASCII character representing the player 
 
         objPos();
         objPos(int xPos, int yPos, char sym);

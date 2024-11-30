@@ -8,6 +8,10 @@ Player::Player(GameMechs* thisGMRef)//*we asume gamechanics is the border for no
 
     // more actions to be included
     //initialzing the first location of your player
+    //dynamically allocating the position
+    playerPos.pos= new Pos;
+
+    //setting the intial player position to the center of the board
     playerPos.pos->x = mainGameMechsRef->getBoardSizeX()/2;
     playerPos.pos->y = mainGameMechsRef->getBoardSizeY()/2;
     playerPos.symbol='@';
@@ -36,6 +40,8 @@ Player::~Player()
     // delete any heap members here
     //no keyword new in the conrtuctor so there is no heap member
     //can leave destructor empty for now
+    delete playerPos.pos; // Free dynamically allocated memory
+    //playerPos.pos = nullptr; // Avoid dangling pointer
 }
 
 objPos Player::getPlayerPos() const
@@ -85,39 +91,60 @@ void Player::updatePlayerDir()
 
 void Player::movePlayer()
 {
+    int boardSizeX = mainGameMechsRef->getBoardSizeX();
+    int boardSizeY = mainGameMechsRef->getBoardSizeY(); 
+    if (boardSizeX > 0 && boardSizeY > 0) { // Ensure valid board dimensions
+        switch (myDir) {
+            case UP:
+                playerPos.pos->y = (playerPos.pos->y - 1 + boardSizeY) % boardSizeY;
+                break;
+            case DOWN:
+                playerPos.pos->y = (playerPos.pos->y + 1) % boardSizeY;
+                break;
+            case LEFT:
+                playerPos.pos->x = (playerPos.pos->x - 1 + boardSizeX) % boardSizeX;
+                break;
+            case RIGHT:
+                playerPos.pos->x = (playerPos.pos->x + 1) % boardSizeX;
+                break;
+            case STOP:
+            default:
+                break;
+            }
+        }
     // PPA3 Finite State Machine logic
-    switch (myDir) {
-        case UP:
-            playerPos.pos->y--;
-            if (playerPos.pos->y<=0)//Wraparound Logic
-                playerPos.pos-> y = mainGameMechsRef->getBoardSizeY()-2;
+    //switch (myDir) {
+        //case UP:
+            //playerPos.pos->y--;
+            //if (playerPos.pos->y<=0)//Wraparound Logic
+                //playerPos.pos-> y = mainGameMechsRef->getBoardSizeY()-2;
             //player.y = (player.y - 1 + BOARD_HEIGHT) % BOARD_HEIGHT;
             //if (player.y == 0) player.y = BOARD_HEIGHT - 2;
-            break;
-        case DOWN:
-            playerPos.pos->y++;
-            if (playerPos.pos->y>= mainGameMechsRef->getBoardSizeY())//Wraparound Logic
-                playerPos.pos->y =1;
+            //break;
+        //case DOWN:
+            //playerPos.pos->y++;
+            //if (playerPos.pos->y>= mainGameMechsRef->getBoardSizeY())//Wraparound Logic
+                //playerPos.pos->y =1;
             //player.y = (player.y + 1) % BOARD_HEIGHT;
             //if (player.y == BOARD_HEIGHT - 1) player.y = 1;
-            break;
-        case LEFT:
-            playerPos.pos->x--;
-            if (playerPos.pos->x<=0)//Wraparound Logic
-                playerPos.pos-> x = mainGameMechsRef->getBoardSizeX()-2;
+            //break;
+        //case LEFT:
+            //playerPos.pos->x--;
+            //if (playerPos.pos->x<=0)//Wraparound Logic
+                //playerPos.pos-> x = mainGameMechsRef->getBoardSizeX()-2;
             //player.x = (player.x - 1 + BOARD_WIDTH) % BOARD_WIDTH;
             //if (player.x == 0) player.x = BOARD_WIDTH - 2;
-            break;
-        case RIGHT:
-            playerPos.pos->x++;
-            if (playerPos.pos->x>=mainGameMechsRef->getBoardSizeX())//Wraparound Logic
-                playerPos.pos-> x = 1;
+            //break;
+        //case RIGHT:
+            //playerPos.pos->x++;
+            //if (playerPos.pos->x>=mainGameMechsRef->getBoardSizeX())//Wraparound Logic
+                //playerPos.pos-> x = 1;
             //player.x = (player.x + 1) % BOARD_WIDTH;
             //if (player.x == BOARD_WIDTH - 1) player.x = 1;
-            break;
-        default:
-            break;
-    }
+            //break;
+        //default:
+            //break;
+    //}
 }
 
 // More methods to be added
