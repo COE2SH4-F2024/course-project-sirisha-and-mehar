@@ -4,7 +4,7 @@
 
 #include "GameMechs.h"
 #include "Player.h"
-
+#include "Food.h" // added now
 using namespace std;
 
 #define DELAY_CONST 100000
@@ -15,7 +15,7 @@ using namespace std;
 
 Player *myPlayer; // points to player 
 GameMechs *myGM; // pointers to gamemechs 
-
+Food *myFood; // added now 
 
 // bool exitFlag; // dont need to expose here bc it is already in game mechanics but we can access game mechanices
 // using myGM and get the exitflag
@@ -63,8 +63,12 @@ void Initialize(void)
     //put pointers under inirialize function
     //myGM
     //exitFlag = false;
+    
+    srand(time(NULL));
     myGM = new GameMechs(); // default game mechs so we alwasy have the same dimentions 30x15
     myPlayer = new Player(myGM); // my player keeps track of the pointer myGM
+    myFood = new Food(); // new
+    myFood->generateFood(myPlayer->getPlayerPos()); // start by generating food in a random positon on the baord 
 }
 
 void GetInput(void)
@@ -72,7 +76,7 @@ void GetInput(void)
    // get the input from the myGm object 
    // .input = myGM->getInput(); 
    //char input = myGM->getInput();
-   myGM->collectAsyncInput(); //so it gollects input if there is an asynchronous input from tut
+   myGM->collectAsyncInput(); 
   
 }
 
@@ -81,6 +85,11 @@ void RunLogic(void)
 
     myPlayer->movePlayer();
     myPlayer->updatePlayerDir();
+
+    // make sure there is no ovelap 
+    if (myPlayer->getPlayerPos().pos->x == myFood->getFoodPos().pos->x && myPlayer->getPlayerPos().pos->y == myFood->getFoodPos().pos->y) {
+        myFood->generateFood(myPlayer->getPlayerPos()); // Generate new food, blockOff is the playerpositon 
+    }
     
     //myGm->getInput(); 
 // have to come back with 1A content and use getter methid for input char, 
@@ -96,11 +105,13 @@ void DrawScreen(void)
     //you will need to implement a copy assignment operator
     //to make this lien work
     objPos playerPos = myPlayer->getPlayerPos();
+    objPos foodPos = myFood->getFoodPos(); // just added 
     // playerPos.pos->x gets the x value
     // playerPos.pos->y gets the y value
     // playerPos.symbl-> gets the symnol
     //put ppa3 board drawing function in here  
     MacUILib_printf("Player[x,y]=[%d,%d], %c\n",playerPos.pos->x, playerPos.pos->y, playerPos.symbol);
+    MacUILib_printf("Generated food at [%d, %d]\n", foodPos.pos->x, foodPos.pos->y);
     // using macuilib stll because here its asynhronous input system so not using cout yet
 
     //MacUILib_clearScreen();   
@@ -122,8 +133,13 @@ void DrawScreen(void)
             {
                 MacUILib_printf("%c", playerPos.symbol);
             }
+            else if (i==foodPos.pos->y && j==foodPos.pos->x)
+            {
+                MacUILib_printf("%c", foodPos.symbol);
+            }
             else 
             {
+                
                 MacUILib_printf(" "); // empty space for the rest 
                 
             }
@@ -143,10 +159,13 @@ void LoopDelay(void)
 void CleanUp(void)
 {
     MacUILib_clearScreen();  
-    delete myPlayer;
-    delete myGM;
+    //delete myPlayer; // if i comment this out the malloc error goes away?
+    //delete myGM;
     //delete pointers!!  
 
     MacUILib_uninit();
     // delete pointers initalized in the beggining
+    delete myPlayer;
+    delete myGM;
+    delete myFood; // just added 
 }
