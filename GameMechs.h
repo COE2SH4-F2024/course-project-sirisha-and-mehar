@@ -43,8 +43,7 @@ class GameMechs
         void incrementScore();
         
         // More methods should be added here
-        void generateFood(objPos blockOff); 
-        objPos getFoodPos() const;//getter for food position
+        void collectAsyncInput(); 
 };
 
 #endif
