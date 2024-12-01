@@ -18,6 +18,7 @@ GameMechs::GameMechs()
         boardSizeX = 30;
         boardSizeY = 15;
         food = new Food(); // Allocate food object on the heap.
+        //food = '*';
 }
 
 GameMechs::GameMechs(int boardX, int boardY)

@@ -22,7 +22,7 @@ class GameMechs
         int boardSizeX;//width of the board
         int boardSizeY;//height of the board
 
-        //objPos food;//directly stores the position of the food
+        //objPos food;//directly stores the position of the food remove for 1B implementation for 2B
         Food* food;        // Pointer to the Food object.
 
     public:

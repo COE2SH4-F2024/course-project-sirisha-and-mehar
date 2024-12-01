@@ -9,7 +9,7 @@ Food::Food() {
     //before was std::srand(std::time(nullptr));
 
     // Initialize the food position (default values)
-    foodPos = {0, 0, '*'}; // '@' represents the food symbol.
+    foodPos = {0, 0, '*'}; // '*' represents the food symbol.
 }
 
 // Destructor
@@ -25,7 +25,7 @@ void Food::generateFood(const objPos& blockOff, int boardX, int boardY) {
         // Generate random x and y coordinates within the board boundaries.
         newX = std::rand() % boardX;
         newY = std::rand() % boardY;
-    } while (newX == blockOff.xPos && newY == blockOff.yPos); // Avoid player position.
+    } while (newX == blockOff.x && newY == blockOff.y); // Avoid player position.
 
     // Set the food's position and ASCII symbol.
     foodPos = {newX, newY, '*'};
