@@ -6,7 +6,7 @@
 Food::Food() {
     // random number generator (only once, when the program starts).
     //Food=='*';
-    //before was std::srand(std::time(nullptr));
+    std::srand(std::time(nullptr));
 
     // Initialize the food position (default values)
     foodPos = {0, 0, '*'}; // '*' represents the food symbol.
