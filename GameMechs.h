@@ -7,6 +7,8 @@
 #include "objPos.h"
 #include "objPosArrayList.h"
 
+#include "Food.h"
+
 using namespace std;
 
 class GameMechs
@@ -20,9 +22,11 @@ class GameMechs
         int boardSizeX;//width of the board
         int boardSizeY;//height of the board
 
-        objPos food;
+        //objPos food;//directly stores the position of the food remove for 1B implementation for 2B
+        Food* food;        // Pointer to the Food object.
 
     public:
+    //constructors and destructors
         GameMechs();
         GameMechs(int boardX, int boardY);
         ~GameMechs(); // is this one needed at all? Why or why not? //destructor
@@ -41,6 +45,7 @@ class GameMechs
         
         int getScore() const;
         void incrementScore();
+        
         
         // More methods should be added here
         void collectAsyncInput(); 

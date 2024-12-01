@@ -13,6 +13,8 @@ class objPos
     public:
         Pos* pos;        
         char symbol;
+        int x;
+        int y;
 
         objPos(); // constuctor
         objPos(int xPos, int yPos, char sym); // special constructor 

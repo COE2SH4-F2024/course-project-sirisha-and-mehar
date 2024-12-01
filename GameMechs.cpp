@@ -17,6 +17,8 @@ GameMechs::GameMechs()
 
         boardSizeX = 30;
         boardSizeY = 15;
+        food = new Food(); // Allocate food object on the heap.
+        //food = '*';
 }
 
 GameMechs::GameMechs(int boardX, int boardY)
@@ -28,6 +30,7 @@ GameMechs::GameMechs(int boardX, int boardY)
 
         boardSizeX = boardX;
         boardSizeY = boardY;
+        food= new Food(); //Allocating memory on the heap for food object
 }
 
 // do you need a destructor?
@@ -35,6 +38,7 @@ GameMechs::~GameMechs()
 {
     // dont need the destructor yet becuase we dont have any memebers allocated on heap (new) but 
     // might need this later 
+    delete food;//to prevent memory leak DMA 
     
 }
 
@@ -78,7 +82,8 @@ int GameMechs::getScore() const
 void GameMechs::incrementScore()
 {
     // if food eaten increase the score by the numbe of foods eaten
-    score += 1; // to have it increased more then one we can take in a
+    score += 1; //or could make it score ++; 
+    // to have it increased more then one we can take in a
     // parameter and have that be the number of food so that we can increment more than 1
     
 
@@ -97,7 +102,7 @@ int GameMechs::getBoardSizeY() const
 
 void GameMechs::setExitTrue()
 {
-    if (input == 27) //esc key is exit 
+    if (input == 32) //space bar is exit 
     {
         exitFlag = 1; 
     }
@@ -124,4 +129,3 @@ void GameMechs::clearInput()
 }
 
 // More methods should be added here
-

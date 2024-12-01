@@ -7,6 +7,7 @@ typedef struct
 {
     int x;
     int y;
+    char symbol;
 } Pos;
 
 class objPos
