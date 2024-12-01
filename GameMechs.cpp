@@ -17,6 +17,7 @@ GameMechs::GameMechs()
 
         boardSizeX = 30;
         boardSizeY = 15;
+        food = new Food(); // Allocate food object on the heap.
 }
 
 GameMechs::GameMechs(int boardX, int boardY)
@@ -28,6 +29,7 @@ GameMechs::GameMechs(int boardX, int boardY)
 
         boardSizeX = boardX;
         boardSizeY = boardY;
+        food= new Food(); //Allocating memory on the heap for food object
 }
 
 // do you need a destructor?
@@ -35,6 +37,7 @@ GameMechs::~GameMechs()
 {
     // dont need the destructor yet becuase we dont have any memebers allocated on heap (new) but 
     // might need this later 
+    delete food;//to prevent memory leak DMA 
     
 }
 
@@ -51,12 +54,20 @@ bool GameMechs::getLoseFlagStatus() const
 }
     
 
-char GameMechs::getInput() //remove const here to avoid errors 
+char GameMechs::getInput() const //remove const here to avoid errors 
+{
+    return input;
+}
+
+void GameMechs:: collectAsyncInput()
+//GamMechs is the master overseer to determine the state of the game
 {
     if (MacUILib_hasChar())
     {
         input = MacUILib_getChar();
-    } return input; 
+    } 
+    
+    if (input==' ') exitFlag=true;
 }
 
 
@@ -70,7 +81,8 @@ int GameMechs::getScore() const
 void GameMechs::incrementScore()
 {
     // if food eaten increase the score by the numbe of foods eaten
-    score += 1; // to have it increased more then one we can take in a
+    score += 1; //or could make it score ++; 
+    // to have it increased more then one we can take in a
     // parameter and have that be the number of food so that we can increment more than 1
     
 
@@ -89,7 +101,7 @@ int GameMechs::getBoardSizeY() const
 
 void GameMechs::setExitTrue()
 {
-    if (input == 27) //esc key is exit 
+    if (input == 32) //space bar is exit 
     {
         exitFlag = 1; 
     }
@@ -119,6 +131,9 @@ void GameMechs::clearInput()
 // generate random food positions
 void GameMechs::generateFood(objPos blockOff)
 {
+    food->generateFood(blockOff, boardSizeX, boardSizeY);
+    //Delegating food to the class
+
     /*
     srand(time(NULL)); // Seed random number generator
 
@@ -214,6 +229,7 @@ void GameMechs::generateFood(objPos blockOff)
 // getter method to get food position
 objPos GameMechs::getFoodPos() const
 {
-    return food;  // bc it is a objPos and we have a copy assignment operator we can just return food
+    return food->getFoodPos(); //Delegate to food class
+    // bc it is a objPos and we have a copy assignment operator we can just return food
 
 }

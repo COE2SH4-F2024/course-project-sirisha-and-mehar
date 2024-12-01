@@ -72,6 +72,7 @@ void GetInput(void)
    // get the input from the myGm object 
    // .input = myGM->getInput(); 
    //char input = myGM->getInput();
+   myGM->collectAsyncInput(); //so it gollects input if there is an asynchronous input from tut
   
 }
 

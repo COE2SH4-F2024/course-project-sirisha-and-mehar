@@ -61,10 +61,12 @@ void Player::updatePlayerDir()
     //switch (myGm->getInput()) {
     //    case 27:  // exit, if esc pressed 
     //copy ppa2 move direction player thing  
-    char input = mainGameMechsRef->getInput();
+    char input = mainGameMechsRef->getInput(); //allows us to peak into what input gammechanics has currently
+    //as the most recent async input
+    // we use the async input to determine whether we move our player with the ASWD switch case
     // PPA3 input processing logic  
     switch (input) {
-        case 27:
+        case 32:
         //myDir = STOP;
         
          // esitflag = 1 here
