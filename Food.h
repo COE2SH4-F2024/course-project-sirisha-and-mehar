@@ -10,8 +10,8 @@ class Food
          
     public:
     
-        Food();
-        ~Food();
+        Food();//constructor
+        ~Food();//deconstructor
         void generateFood(objPos blockOff);
         objPos getFoodPos() const; 
 

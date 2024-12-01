@@ -4,17 +4,21 @@
 Player::Player(GameMechs* thisGMRef)//*we asume gamechanics is the border for now
 {
     mainGameMechsRef = thisGMRef;//getting pointer 
+    PlayerPosList = new objPosArrayList();
     myDir = STOP; //defaulted direction to stop
 
     // more actions to be included
     //initialzing the first location of your player
     //dynamically allocating the position
-    playerPos.pos = new Pos;
+    //playerPos.pos = new Pos; i think we comment it out because this only generates one position instead of a list of posiitons
 
+    objPos headPos(thisGMRef->getBoardSizeX()/2, thisGMRef->getBoardSizeY()/2, '@');//headposition
+
+    PlayerPosList->insertHead(headPos); //now we have a list containing one head position
     //setting the intial player position to the center of the board
-    playerPos.pos->x = mainGameMechsRef->getBoardSizeX()/2;
-    playerPos.pos->y = mainGameMechsRef->getBoardSizeY()/2;
-    playerPos.symbol='@';
+    //PlayerPos.pos->x = mainGameMechsRef->getBoardSizeX()/2;
+    //playerPos.pos->y = mainGameMechsRef->getBoardSizeY()/2;
+    //playerPos.symbol='@';
 
 
 
@@ -26,18 +30,20 @@ Player::~Player()
     // delete any heap members here
     //no keyword new in the conrtuctor so there is no heap member
     //can leave destructor empty for now
-    delete playerPos.pos; // Free dynamically allocated memory
+    //delete playerPos.pos; // Free dynamically allocated memory
+    delete PlayerPosList; //bc this list sits on the heap we delete it
     //playerPos.pos = nullptr; // Avoid dangling pointer
 }
 
 
 
 
-objPos Player::getPlayerPos() const
+objPosArrayList* Player::getPlayerPos() const
 {
     // return the reference to the playerPos arrray list
     //return array list later
-    return playerPos;
+    return PlayerPosList;
+    //returning the reference to the objpos player array list 
 }
 
 void Player::updatePlayerDir()
@@ -77,15 +83,24 @@ void Player::updatePlayerDir()
 
 void Player::movePlayer()
 {
-    
+    //change this for iteration 3
+    //calculate the next position for the head then instert a new object position into the head of the list
+    //then deetermine if u need to delete the tail element
+    //if the snake collides wiht the food then it grows by 1 so dont delete the tail element 
+    //if it doesnt collide with food the delete tail element for snake moving motion 
+
+    //Psuedo code iteration 3: create a temporary objPos to calculate the new head position
+    //hint: roobabaly should get the head element of the playerpos list as a good starting point
     int boardSizeX = mainGameMechsRef->getBoardSizeX();
     int boardSizeY = mainGameMechsRef->getBoardSizeY(); 
     if (boardSizeX > 0 && boardSizeY > 0) { // Ensure valid board dimensions
         switch (myDir) {
+            //iteration 3: calculate the new position of the head using the temporary object position
+            //update the cases replace temporary objpos with the new position of the head.
             case UP:
-            if (playerPos.pos->y >1)
+            if (PlayerPos.pos->y >1)
             {
-                playerPos.pos->y -=1;
+                PlayerPos.pos->y -=1;
             }
             else
             {
@@ -128,7 +143,15 @@ void Player::movePlayer()
             }
         }
 
+        //iteration 3: insert temp objpos to the head of the list 
+        //after inserting the head make important decsions it3 feature 2 
+        //check if the new temp objpos overlaps with the food position (get it from the GamMechs class or the foodclass for us)
+        //use isPosEqual() method from objPos class
 
+        // then if overlapped food consumed and DO NOT REMOVE SNAKE TAIL
+        // then take respective actions to increase the score
+
+        //Iter3 if no overlap remove the tail and complete movement 
  
 }
 

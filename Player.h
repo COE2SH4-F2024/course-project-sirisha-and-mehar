@@ -30,14 +30,18 @@ class Player
        
 
 
-        objPos getPlayerPos() const; // Upgrade this in iteration 3.       
+        //objPos getPlayerPos() const; // Upgrade this in iteration 3.  
+        objPosArrayList* getPlayerPos() const;
+        //objectPosArrayList* PlayerPosList;
+        //made objectposition array list a pointer for iteration 3 so that we only use it when needed     
         void updatePlayerDir();
         void movePlayer();
 
         // More methods to be added here
 
     private:
-        objPos playerPos; // Upgrade this in iteration 3.       
+        //objPos playerPos; // Upgrade this in iteration 3.    
+        objPosArrayList* PlayerPosList;   //make list based data types s pointers ebecause they take up alot of memory
         enum Dir myDir;
 
         // Need a reference to the Main Game Mechanisms

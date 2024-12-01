@@ -104,7 +104,9 @@ void DrawScreen(void)
     MacUILib_clearScreen();  
     //you will need to implement a copy assignment operator
     //to make this lien work
-    objPos playerPos = myPlayer->getPlayerPos();
+    objPosArrayList* playerPos = myPlayer->getPlayerPos();
+    int playerSize = playerPos->getSize();//tells us how many elements are in the list and we need to 
+    //iterate through all the elements in the list
     objPos foodPos = myFood->getFoodPos(); // just added 
     // playerPos.pos->x gets the x value
     // playerPos.pos->y gets the y value
@@ -122,12 +124,37 @@ void DrawScreen(void)
     {
         for (int j=0; j<30; j++) 
         { 
+            //remove else if statement
+            //we need to iterat through playerpos array list to print
+            //all of the segments out
             
+            //to iterate thru every player segment 
+            for (int k=0; k<playerSize; k++)
+            {
+                objPos thisSeg = playerPos->getElement(k);
+                //we do this so we can get the element we want to look at and save it to the local objPos instance
+
+                //iteration3
+                //check fi te current segment x y position matches the (j,i) cooridnate
+                //if yes print the symbol to add the the snake
+
+
+                //the else statement for the space character is tricky because of the new forloop
+                //here that we jsut added it will mess up the gameboard print and print the character symbol and a space ebcause
+                //the forloop and if else are not connected basically
+
+                //wathc out!!!
+                //we need to skip the if else block below if we have printed soemthing in the forloop
+                //use keyword continue and boolean flag
+            }
+
+            //at the end of the forloop do smth to determine whetehr to continue with the if else or move on to the next iteration
+            //of i,j *key for it3 part1
+            //draw border
             if (j==0 || i== 15-1 || i==0 ||j==30-1) // this is where the border should be
             {
                 MacUILib_printf("#");
                 
-             
             }
             else if (i==playerPos.pos->y && j==playerPos.pos->x)
             {
