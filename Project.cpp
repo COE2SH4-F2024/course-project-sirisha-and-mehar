@@ -80,6 +80,16 @@ void Initialize(void)
 
 void GetInput(void)
 {
+    // Assuming you are collecting asynchronous input
+    char input = myGM->getInput();  // Get the input character from the game mechanics
+
+    // Check for the ESC key (ASCII 27)
+    if (input == 27) {
+        myGM->setExitTrue();  // Set the exit flag to true to stop the game loop
+    }
+    else {
+        myGM->collectAsyncInput(); // Handle other inputs normally
+    }
    // get the input from the myGm object 
    // .input = myGM->getInput(); 
    //char input = myGM->getInput();
@@ -143,6 +153,8 @@ void DrawScreen(void)
     // add back
     MacUILib_printf("Player[x,y]=[%d,%d], %c\n",headPos.pos->x, headPos.pos->y, headPos.symbol);
     MacUILib_printf("Generated food at [%d, %d]\n", foodPos.pos->x, foodPos.pos->y);
+    
+    //MacUILib_printf("You have left the game!\n", myGM->setExitTrue());
     // using macuilib stll because here its asynhronous input system so not using cout yet
 
     //MacUILib_clearScreen();   
@@ -195,6 +207,11 @@ void DrawScreen(void)
         
         }
         MacUILib_printf("\n"); // new line before next row starts 
+    }
+    if (myGM->getExitFlagStatus()==1){
+        MacUILib_printf("You have left the game!\n"); //display if we esp out of the game
+        MacUILib_Delay(1000000);
+
     }
     
 }

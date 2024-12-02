@@ -15,8 +15,6 @@ class Food
         ~Food();//deconstructor
         void generateFood(objPos blockOff);
         objPos getFoodPos() const; 
-        //added
-        void setObjPos(int x, int y, char sym);
 
 };
 

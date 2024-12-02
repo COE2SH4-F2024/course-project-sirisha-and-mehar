@@ -25,7 +25,7 @@ Player::Player(GameMechs* thisGMRef)//*we asume gamechanics is the border for no
 
     //objPos headPos(thisGMRef->getBoardSizeX()/2, thisGMRef->getBoardSizeY()/2, '@');//headposition
 
-    PlayerPosList->insertHead(headPos); //now we have a list containing one head position
+    //playerPosList->insertHead(headPos); //now we have a list containing one head position
     //setting the intial player position to the center of the board
     //playerPos.pos->x = mainGameMechsRef->getBoardSizeX()/2;
     //playerPos.pos->y = mainGameMechsRef->getBoardSizeY()/2;
@@ -43,8 +43,7 @@ Player::~Player()
     //can leave destructor empty for now
     // commenting out for iteration 3
     //delete playerPos.pos; // Free dynamically allocated memory
-    delete PlayerPosList; //bc this list sits on the heap we delete it
-    //playerPos.pos = nullptr; // Avoid dangling pointer
+    delete playerPosList; 
 }
 
 
@@ -70,6 +69,7 @@ void Player::updatePlayerDir()
     // PPA3 input processing logic  
     switch (input) {
         case 27:
+        //MacUILib_printf("You have left the game!\n"); //display if we esp out of the game
         myDir = STOP;
         break;
 
@@ -102,6 +102,87 @@ void Player::movePlayer()
 
     int boardSizeX = mainGameMechsRef->getBoardSizeX();
     int boardSizeY = mainGameMechsRef->getBoardSizeY(); 
+    if (boardSizeX > 0 && boardSizeY > 0) { // Ensure valid board dimensions
+        
+        objPos initalHead = playerPosList->getHeadElement();
+        objPos newHead = initalHead; 
+        switch (myDir) {
+
+            // calculate the new psotion of the head using the temp objpos
+
+            case UP:
+            if (initalHead.pos->y >1)
+            {
+                //newHead.pos->y = initalHead.pos->y - 1;
+                newHead.pos->y --;
+            }
+            else
+            {
+                newHead.pos->y = boardSizeY-2;
+            }
+            break;
+            case DOWN:
+                 if (initalHead.pos->y < boardSizeY-2)
+            {
+                //newHead.pos->y =initalHead.pos->y + 1;
+                newHead.pos->y++;
+            }
+            else
+            {
+                newHead.pos->y =1;
+            }
+            break; 
+            case LEFT:
+                if (initalHead.pos->x >1)
+            {
+                //newHead.pos->x =initalHead.pos->x-1;
+                newHead.pos->x --;
+            }
+            else
+            {
+                newHead.pos->x = boardSizeX-2;
+            }
+            break; 
+            case RIGHT:
+                if (initalHead.pos->x <boardSizeX-2)
+            {
+               //newHead.pos->x =initalHead.pos->x + 1;
+               newHead.pos->x ++;
+            }
+            else
+            {
+                newHead.pos->x = 1;
+            }
+            break; 
+            case STOP:
+            default:
+                break;
+            }
+            playerPosList->insertHead(newHead); // add a new head at the new furute position 
+            //playerPosList->removeTail();
+            // check if we need to add a tail or not 
+            // if collision with food add a tail otherwise do not add the tail
+            /*
+            if(newHead.isPosEqual(foodRef->getFoodPos())) // why does the foodRef not work?
+            {
+                // just generate new food but we already do this somewhere else 
+                //foodRef->generateFood(playerPosList);
+            }
+            else{
+                playerPosList->removeTail();
+            }
+            */
+           // if there is no collision remove a tail (snake should not appear to grow)
+           //if(!newHead.isPosEqual(foodRef->getFoodPos()))
+           //{
+           // playerPosList->removeTail(); 
+           //}
+            
+        }
+        
+
+
+    /*
     if (boardSizeX > 0 && boardSizeY > 0) { // Ensure valid board dimensions
         switch (myDir) {
 
@@ -153,10 +234,14 @@ void Player::movePlayer()
             }
         }
 
-        //iteration 3: insert temp objpos to the head of the list 
-        //after inserting the head make important decsions it3 feature 2 
-        //check if the new temp objpos overlaps with the food position (get it from the GamMechs class or the foodclass for us)
-        //use isPosEqual() method from objPos class
+        */
+    // inseet temp objpos to the head of the list
+
+    // check if the new temp opjpos overlaps the food pos
+    // use isposequal from obj class/
+    // if overlapped food consumed so not remove tail
+    // if no ovwerlap remove tail 
+
 
         // then if overlapped food consumed and DO NOT REMOVE SNAKE TAIL
         // then take respective actions to increase the score
