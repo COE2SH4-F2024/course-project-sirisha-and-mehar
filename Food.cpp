@@ -12,16 +12,22 @@ Food::Food()
     srand(time(NULL)); // Seed the random number generator
 
     // Initialize food position directly
-    foodPos.pos = new Pos; // Allocate memory for position
-    //foodPos.pos->x = 1;         // Default x
-    //foodPos.pos->y = 1;         // Default y
-    foodPos.symbol = 'o';       // Default food symbol
+    // foodPos.pos = new Pos; // Allocate memory for position
+    // //foodPos.pos->x = 1;         // Default x
+    // //foodPos.pos->y = 1;         // Default y
+    // foodPos.symbol = 'o';       // Default food symbol
+
+    foodPos.pos->x = 1;
+    foodPos.pos->y = 1; 
+    foodPos.symbol = 'o';
 
 }
 
 Food::~Food()
 {
-    delete foodPos.pos; 
+    // delete foodPos.pos; 
+    //delete foodPos;
+    //delete myplayer;
 }
 
 void Food::generateFood(objPos blockOff)
@@ -92,11 +98,11 @@ void Food::generateFood(objPos blockOff)
 
 }
 //added
-void Food::setObjPos(int x, int y, char sym) {
-    foodPos.pos->x = x;
-    foodPos.pos->y = y;
-    foodPos.symbol = sym;
-}
+//void Food::setObjPos(int x, int y, char sym) {
+    //foodPos.pos->x = x;
+    //foodPos.pos->y = y;
+    //foodPos.symbol = sym;
+//}
 
 objPos Food::getFoodPos() const
 {

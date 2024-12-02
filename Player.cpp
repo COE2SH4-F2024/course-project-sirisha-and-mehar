@@ -43,7 +43,7 @@ Player::~Player()
     //can leave destructor empty for now
     // commenting out for iteration 3
     //delete playerPos.pos; // Free dynamically allocated memory
-    delete playerPosList; 
+    delete[] playerPosList; 
 }
 
 
@@ -91,6 +91,11 @@ void Player::updatePlayerDir()
             break;
 
     }
+}
+bool checkSelfCollision()
+{
+    return true;
+    
 }
 
 void Player::movePlayer()
@@ -179,7 +184,18 @@ void Player::movePlayer()
            //}
             
         }
-        
+    /*
+    // Iterate through all body segments, starting from the second segment (index 1) since the first is the head
+    for (int i = 1; i < playerPositions->getSize(); ++i) {
+        objPos bodySegment = playerPositions->getElement(i);
+    
+    // Check if the new head position matches any body segment's position
+        if (newHeadPos.pos->x == bodySegment.pos->x && newHeadPos.pos->y == bodySegment.pos->y) {
+            checkSelfCollision() = true;  // If a collision occurs, set collision flag to true
+            break;
+        }
+    }
+    */
 
 
     /*

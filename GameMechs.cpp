@@ -60,7 +60,10 @@ void GameMechs::collectAsyncInput()
     {
         input = MacUILib_getChar();
     } //return input; 
-    if (input == 27) exitFlag = true; 
+    if (input == 27)
+    {
+        setExitTrue();
+    }
 
 }
 
@@ -102,10 +105,10 @@ int GameMechs::getBoardSizeY() const
 
 void GameMechs::setExitTrue()
 {
-    if (input == 27) //esc bar is exit 
-    {
-        exitFlag = 1; 
-    }
+    //if (input == 27) //esc bar is exit 
+    //{
+    exitFlag = 1; 
+    //}
     
 
 }

@@ -213,6 +213,12 @@ void DrawScreen(void)
         MacUILib_Delay(1000000);
 
     }
+    if (myGM->getLoseFlagStatus()) {
+        MacUILib_printf("Game Over! You lost!\n");
+    } 
+    //else {
+        //MacUILib_printf("Game Over! You exited the game!\n");
+   // }
     
 }
 
