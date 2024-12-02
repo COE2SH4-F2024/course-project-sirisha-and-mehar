@@ -2,6 +2,7 @@
 #define FOOD_H
 
 # include "objPos.h"
+# include "Player.h"
 
 class Food
 {

@@ -1,9 +1,11 @@
 #ifndef PLAYER_H
 #define PLAYER_H
-
-#include "GameMechs.h"
+class GameMechs;
+//#include "GameMechs.h"
 #include "objPos.h"
 #include "objPosArrayList.h"
+//#include "Food.h"
+
 
 class Player
 {
@@ -24,16 +26,17 @@ class Player
             //char symbol; // The ASCII symbol of the object about to be drawn on the screen 
         //};
 
+        //Player(GameMechs* thisGMRef, Food* thisFoodRef); // added food bc we need to see if the food pos and head pos is the same
         Player(GameMechs* thisGMRef);
         ~Player();
         
        
 
+        // changed for iteration 3
+        //objPos getPlayerPos() const; // Upgrade this in iteration 3.     
+        // now we have a list of positions   
+        objPosArrayList* getPlayerPos() const; //upgraded for iteration 3
 
-        //objPos getPlayerPos() const; // Upgrade this in iteration 3.  
-        objPosArrayList* getPlayerPos() const;
-        //objPosArrayList* PlayerPosList; // Manages a list of player positions
-        //made objectposition array list a pointer for iteration 3 so that we only use it when needed     
         void updatePlayerDir();
         void movePlayer();
 
@@ -41,12 +44,19 @@ class Player
         bool foodEaten; // Flag to track if food was eaten
 
     private:
-        //objPos playerPos; // Upgrade this in iteration 3.    
-        objPosArrayList* PlayerPosList;   //make list based data types s pointers ebecause they take up alot of memory
-        enum Dir myDir;
+        
 
-        // Need a reference to the Main Game Mechanisms
+        //objPos playerPos; // Upgrade this in iteration 3.       
+        //upgrating for iteration 3
+        objPosArrayList* playerPosList;
+
+        enum Dir myDir;
+        
+         // Need a reference to the Main Game Mechanisms
         GameMechs* mainGameMechsRef;
+        //Food* foodRef;
+
+
 };
 
 #endif

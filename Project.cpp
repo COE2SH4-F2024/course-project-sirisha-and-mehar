@@ -66,9 +66,16 @@ void Initialize(void)
     
     srand(time(NULL));
     myGM = new GameMechs(); // default game mechs so we alwasy have the same dimentions 30x15
-    myPlayer = new Player(myGM); // my player keeps track of the pointer myGM
+    // add back
+    // myPlayer = new Player(myGM, myFood); // my player keeps track of the pointer myGM, added myFood
+    myPlayer = new Player(myGM);
     myFood = new Food(); // new
-    myFood->generateFood(myPlayer->getPlayerPos()); // start by generating food in a random positon on the baord 
+
+    objPosArrayList* playerPositions = myPlayer->getPlayerPos();
+    objPos headPos = playerPositions->getHeadElement();
+   
+    // add back
+    myFood->generateFood(headPos); // start by generating food in a random positon on the baord 
 }
 
 void GetInput(void)
@@ -87,9 +94,26 @@ void RunLogic(void)
     myPlayer->updatePlayerDir();
 
     // make sure there is no ovelap 
-    if (myPlayer->getPlayerPos().pos->x == myFood->getFoodPos().pos->x && myPlayer->getPlayerPos().pos->y == myFood->getFoodPos().pos->y) {
-        myFood->generateFood(myPlayer->getPlayerPos()); // Generate new food, blockOff is the playerpositon 
+   // add back
+    //if (myPlayer->getPlayerPos().pos->x == myFood->getFoodPos().pos->x && myPlayer->getPlayerPos().pos->y == myFood->getFoodPos().pos->y) {
+    //    myFood->generateFood(myPlayer->getPlayerPos()); // Generate new food, blockOff is the playerpositon 
+    //}
+    objPosArrayList* playerPositions = myPlayer->getPlayerPos();
+    objPos headPos = playerPositions->getHeadElement();
+
+
+    // Check if player eats food
+    if (headPos.pos->x == myFood->getFoodPos().pos->x && headPos.pos->y == myFood->getFoodPos().pos->y) {
+        // Generate new food that does not overlap with player positions
+        myFood->generateFood(headPos);
+        
     }
+    else{
+        playerPositions->removeTail();
+
+    }
+   
+
     
     //myGm->getInput(); 
 // have to come back with 1A content and use getter methid for input char, 
@@ -105,14 +129,19 @@ void DrawScreen(void)
     //you will need to implement a copy assignment operator
     //to make this lien work
     objPosArrayList* playerPos = myPlayer->getPlayerPos();
-    int playerSize = playerPos->getSize();//tells us how many elements are in the list and we need to 
-    //iterate through all the elements in the list
+    int playerSize = playerPos->getSize(); 
+    objPos headPos = playerPos->getHeadElement();
+
+
+
     objPos foodPos = myFood->getFoodPos(); // just added 
     // playerPos.pos->x gets the x value
     // playerPos.pos->y gets the y value
     // playerPos.symbl-> gets the symnol
     //put ppa3 board drawing function in here  
-    MacUILib_printf("Player[x,y]=[%d,%d], %c\n",playerPos.pos->x, playerPos.pos->y, playerPos.symbol);
+
+    // add back
+    MacUILib_printf("Player[x,y]=[%d,%d], %c\n",headPos.pos->x, headPos.pos->y, headPos.symbol);
     MacUILib_printf("Generated food at [%d, %d]\n", foodPos.pos->x, foodPos.pos->y);
     // using macuilib stll because here its asynhronous input system so not using cout yet
 
@@ -123,43 +152,35 @@ void DrawScreen(void)
     for (int i=0; i<15; i++)
     {
         for (int j=0; j<30; j++) 
-        { 
-            //remove else if statement
-            //we need to iterat through playerpos array list to print
-            //all of the segments out
+        { bool isDrawn = false; // added 
             
-            //to iterate thru every player segment 
-            for (int k=0; k<playerSize; k++)
+            for(int k=0;k<playerSize; k++)
             {
                 objPos thisSeg = playerPos->getElement(k);
-                //we do this so we can get the element we want to look at and save it to the local objPos instance
+                if (i==thisSeg.pos->y && j==thisSeg.pos->x)
+                {
+                    MacUILib_printf("%c", thisSeg.symbol);
+                    isDrawn = true; // added
+                    break;  // added
+                }
 
-                //iteration3
-                //check fi te current segment x y position matches the (j,i) cooridnate
-                //if yes print the symbol to add the the snake
 
+                // check i fthe current seg x, y pos mathces j and i coord, if yes proint symbol
+                // we need to skip if else block if we printied something in the for loop
 
-                //the else statement for the space character is tricky because of the new forloop
-                //here that we jsut added it will mess up the gameboard print and print the character symbol and a space ebcause
-                //the forloop and if else are not connected basically
-
-                //wathc out!!!
-                //we need to skip the if else block below if we have printed soemthing in the forloop
-                //use keyword continue and boolean flag
             }
-
-            //at the end of the forloop do smth to determine whetehr to continue with the if else or move on to the next iteration
-            //of i,j *key for it3 part1
-            //draw border
+            if(!isDrawn){ // del if 
             if (j==0 || i== 15-1 || i==0 ||j==30-1) // this is where the border should be
             {
                 MacUILib_printf("#");
                 
             }
-            else if (i==playerPos.pos->y && j==playerPos.pos->x)
-            {
-                MacUILib_printf("%c", playerPos.symbol);
-            }
+
+
+            //else if (i==playerPos.pos->y && j==playerPos.pos->x)
+            //{
+            //    MacUILib_printf("%c", playerPos.symbol);
+            //}
             else if (i==foodPos.pos->y && j==foodPos.pos->x)
             {
                 MacUILib_printf("%c", foodPos.symbol);
@@ -167,9 +188,10 @@ void DrawScreen(void)
             else 
             {
                 
-                MacUILib_printf(" "); // empty space for the rest 
+               MacUILib_printf(" "); // empty space for the rest 
                 
             }
+            } // del for loop 
         
         }
         MacUILib_printf("\n"); // new line before next row starts 
