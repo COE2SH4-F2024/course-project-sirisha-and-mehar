@@ -91,6 +91,12 @@ void Food::generateFood(objPos blockOff)
     
 
 }
+//added
+void Food::setObjPos(int x, int y, char sym) {
+    foodPos.pos->x = x;
+    foodPos.pos->y = y;
+    foodPos.symbol = sym;
+}
 
 objPos Food::getFoodPos() const
 {

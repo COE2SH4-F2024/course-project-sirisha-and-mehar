@@ -32,12 +32,13 @@ class Player
 
         //objPos getPlayerPos() const; // Upgrade this in iteration 3.  
         objPosArrayList* getPlayerPos() const;
-        //objectPosArrayList* PlayerPosList;
+        //objPosArrayList* PlayerPosList; // Manages a list of player positions
         //made objectposition array list a pointer for iteration 3 so that we only use it when needed     
         void updatePlayerDir();
         void movePlayer();
 
         // More methods to be added here
+        bool foodEaten; // Flag to track if food was eaten
 
     private:
         //objPos playerPos; // Upgrade this in iteration 3.    

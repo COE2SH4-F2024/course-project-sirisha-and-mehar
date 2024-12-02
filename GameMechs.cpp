@@ -129,3 +129,17 @@ void GameMechs::clearInput()
 }
 
 // More methods should be added here
+//objPos GameMechs::getFoodPos() const 
+//{
+    //return *food; // Assuming `food` is a pointer to an objPos object
+//}
+void GameMechs::consumeFood() {
+    // Example: Generate a new random position for the food
+    int newX = rand() % boardSizeX;
+    int newY = rand() % boardSizeY;
+    food->setObjPos(newX, newY, '*'); // Update food's position and symbol
+}
+
+objPos GameMechs::getFoodPos() const {
+    return food->getFoodPos(); // Assuming `Food` has a method `getObjPos` that returns an `objPos`
+}

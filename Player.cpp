@@ -6,7 +6,8 @@ Player::Player(GameMechs* thisGMRef)//*we asume gamechanics is the border for no
     mainGameMechsRef = thisGMRef;//getting pointer 
     PlayerPosList = new objPosArrayList();
     myDir = STOP; //defaulted direction to stop
-
+    foodEaten = false;  // Initialize foodEaten flag
+    
     // more actions to be included
     //initialzing the first location of your player
     //dynamically allocating the position
@@ -15,6 +16,7 @@ Player::Player(GameMechs* thisGMRef)//*we asume gamechanics is the border for no
     objPos headPos(thisGMRef->getBoardSizeX()/2, thisGMRef->getBoardSizeY()/2, '@');//headposition
 
     PlayerPosList->insertHead(headPos); //now we have a list containing one head position
+    objPos currentHead = PlayerPosList->getHeadElement(); // Assuming `getHead()` is defined
     //setting the intial player position to the center of the board
     //PlayerPos.pos->x = mainGameMechsRef->getBoardSizeX()/2;
     //playerPos.pos->y = mainGameMechsRef->getBoardSizeY()/2;
@@ -32,6 +34,7 @@ Player::~Player()
     //can leave destructor empty for now
     //delete playerPos.pos; // Free dynamically allocated memory
     delete PlayerPosList; //bc this list sits on the heap we delete it
+    delete getPlayerPos();
     //playerPos.pos = nullptr; // Avoid dangling pointer
 }
 
@@ -93,6 +96,47 @@ void Player::movePlayer()
     //hint: roobabaly should get the head element of the playerpos list as a good starting point
     int boardSizeX = mainGameMechsRef->getBoardSizeX();
     int boardSizeY = mainGameMechsRef->getBoardSizeY(); 
+
+        // Get the current head position of the player
+    objPos currentHead = PlayerPosList->getHeadElement();
+
+    // Calculate the new head position
+    objPos newHead = currentHead;
+    switch (myDir) {
+        case UP:
+            newHead.pos->y = (currentHead.pos->y > 1) ? currentHead.pos->y - 1 : boardSizeY - 2;
+            break;
+        case DOWN:
+            newHead.pos->y = (currentHead.pos->y < boardSizeY - 2) ? currentHead.pos->y + 1 : 1;
+            break;
+        case LEFT:
+            newHead.pos->x = (currentHead.pos->x > 1) ? currentHead.pos->x - 1 : boardSizeX - 2;
+            break;
+        case RIGHT:
+            newHead.pos->x = (currentHead.pos->x < boardSizeX - 2) ? currentHead.pos->x + 1 : 1;
+            break;
+        case STOP:
+        default:
+            return; // No movement if STOP
+    }
+
+    // Insert the new head position into the list
+    PlayerPosList->insertHead(newHead);
+
+    // Check if the new head overlaps with the food
+    objPos foodPos = mainGameMechsRef->getFoodPos();
+    if (newHead.isPosEqual(&foodPos)) {
+        // Food consumed: Do not remove the tail, increase the score
+        mainGameMechsRef->consumeFood();
+    } else {
+        // No food consumed: Remove the tail to simulate movement
+        PlayerPosList->removeTail();
+    }
+    if (!foodEaten) {
+        PlayerPosList->removeTail(); // Remove the last position
+    }
+
+/* before iteration 3
     if (boardSizeX > 0 && boardSizeY > 0) { // Ensure valid board dimensions
         switch (myDir) {
             //iteration 3: calculate the new position of the head using the temporary object position
@@ -142,7 +186,7 @@ void Player::movePlayer()
                 break;
             }
         }
-
+*/
         //iteration 3: insert temp objpos to the head of the list 
         //after inserting the head make important decsions it3 feature 2 
         //check if the new temp objpos overlaps with the food position (get it from the GamMechs class or the foodclass for us)
