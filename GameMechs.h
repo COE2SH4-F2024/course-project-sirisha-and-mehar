@@ -8,6 +8,7 @@
 #include "objPosArrayList.h"
 
 #include "Food.h"
+#include "Player.h" // just added 
 
 using namespace std;
 

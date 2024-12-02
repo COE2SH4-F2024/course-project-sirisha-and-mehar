@@ -2,6 +2,7 @@
 #define FOOD_H
 
 # include "objPos.h"
+# include "Player.h"
 
 class Food
 {
@@ -10,8 +11,8 @@ class Food
          
     public:
     
-        Food();
-        ~Food();
+        Food();//constructor
+        ~Food();//deconstructor
         void generateFood(objPos blockOff);
         objPos getFoodPos() const; 
 
