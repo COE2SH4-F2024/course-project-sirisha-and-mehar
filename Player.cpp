@@ -43,7 +43,7 @@ Player::~Player()
     //can leave destructor empty for now
     // commenting out for iteration 3
     //delete playerPos.pos; // Free dynamically allocated memory
-    delete[] playerPosList; 
+    delete playerPosList; 
 }
 
 
@@ -69,7 +69,6 @@ void Player::updatePlayerDir()
     // PPA3 input processing logic  
     switch (input) {
         case 27:
-        //MacUILib_printf("You have left the game!\n"); //display if we esp out of the game
         myDir = STOP;
         break;
 
@@ -92,11 +91,6 @@ void Player::updatePlayerDir()
 
     }
 }
-bool checkSelfCollision()
-{
-    return true;
-    
-}
 
 void Player::movePlayer()
 {
@@ -111,9 +105,11 @@ void Player::movePlayer()
         
         objPos initalHead = playerPosList->getHeadElement();
         objPos newHead = initalHead; 
+
         switch (myDir) {
 
             // calculate the new psotion of the head using the temp objpos
+            
 
             case UP:
             if (initalHead.pos->y >1)
@@ -164,106 +160,42 @@ void Player::movePlayer()
                 break;
             }
             playerPosList->insertHead(newHead); // add a new head at the new furute position 
-            //playerPosList->removeTail();
-            // check if we need to add a tail or not 
-            // if collision with food add a tail otherwise do not add the tail
+
             /*
-            if(newHead.isPosEqual(foodRef->getFoodPos())) // why does the foodRef not work?
+            for(int i = 1;i<playerPosList->getSize(); i++)
             {
-                // just generate new food but we already do this somewhere else 
-                //foodRef->generateFood(playerPosList);
-            }
-            else{
-                playerPosList->removeTail();
-            }
-            */
-           // if there is no collision remove a tail (snake should not appear to grow)
-           //if(!newHead.isPosEqual(foodRef->getFoodPos()))
-           //{
-           // playerPosList->removeTail(); 
-           //}
+            objPos bodyList = playerPosList->getElement(i);
             
+            if(newHead.pos->x==bodyList.pos->x && newHead.pos->y==bodyList.pos->y)
+            {
+                checkSelfCollision() == true;  // if there is a collision set it as true
+                // we can to amke the loseflag true and the exitflag true
+                mainGameMechsRef->setLoseFlag(); // true means that they lost the gaem
+                mainGameMechsRef->setExitTrue(); // we have to exit the whle loop 
+                break; 
+            }
+            } 
+            */
         }
-    /*
-    // Iterate through all body segments, starting from the second segment (index 1) since the first is the head
-    for (int i = 1; i < playerPositions->getSize(); ++i) {
-        objPos bodySegment = playerPositions->getElement(i);
-    
-    // Check if the new head position matches any body segment's position
-        if (newHeadPos.pos->x == bodySegment.pos->x && newHeadPos.pos->y == bodySegment.pos->y) {
-            checkSelfCollision() = true;  // If a collision occurs, set collision flag to true
-            break;
-        }
-    }
-    */
-
-
-    /*
-    if (boardSizeX > 0 && boardSizeY > 0) { // Ensure valid board dimensions
-        switch (myDir) {
-
-            // calculate the new psotion of the head using the temp objpos
-
-            case UP:
-            if (PlayerPos.pos->y >1)
-            {
-                PlayerPos.pos->y -=1;
-            }
-            else
-            {
-                playerPos.pos->y = boardSizeY-2;
-            }
-            break;
-            case DOWN:
-                 if (playerPos.pos->y < boardSizeY-2)
-            {
-                playerPos.pos->y +=1;
-            }
-            else
-            {
-                playerPos.pos->y =1;
-            }
-            break; 
-            case LEFT:
-                if (playerPos.pos->x >1)
-            {
-                playerPos.pos->x -=1;
-            }
-            else
-            {
-                playerPos.pos->x = boardSizeX-2;
-            }
-            break; 
-            case RIGHT:
-                if (playerPos.pos->x <boardSizeX-2)
-            {
-                playerPos.pos->x +=1;
-            }
-            else
-            {
-                playerPos.pos->x = 1;
-            }
-            break; 
-            case STOP:
-            default:
-                break;
-            }
-        }
-
-        */
-    // inseet temp objpos to the head of the list
-
-    // check if the new temp opjpos overlaps the food pos
-    // use isposequal from obj class/
-    // if overlapped food consumed so not remove tail
-    // if no ovwerlap remove tail 
-
-
-        // then if overlapped food consumed and DO NOT REMOVE SNAKE TAIL
-        // then take respective actions to increase the score
-
-        //Iter3 if no overlap remove the tail and complete movement 
  
 }
 
 // More methods to be added
+bool Player::checkSelfCollision(){ 
+    objPos initalHead = playerPosList->getHeadElement();
+    objPos newHead = initalHead; 
+
+    for(int i = 1;i<playerPosList->getSize(); i++)
+    {
+        objPos bodyList = playerPosList->getElement(i);
+        // self collision
+        if(newHead.pos->x==bodyList.pos->x && newHead.pos->y==bodyList.pos->y)
+        {
+            //checkSelfCollision() == true;  // if there is a collision set it as true
+            // we can to amke the loseflag true and the exitflag true
+            mainGameMechsRef->setLoseFlag(); // true means that they lost the gaem
+            mainGameMechsRef->setExitTrue(); // we have to exit the whle loop 
+            return true; 
+        }
+    } 
+}

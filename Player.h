@@ -29,9 +29,7 @@ class Player
         //Player(GameMechs* thisGMRef, Food* thisFoodRef); // added food bc we need to see if the food pos and head pos is the same
         Player(GameMechs* thisGMRef);
         ~Player();
-
-        bool checkSelfCollision();
-    
+        
        
 
         // changed for iteration 3
@@ -42,7 +40,9 @@ class Player
         void updatePlayerDir();
         void movePlayer();
 
+
         // More methods to be added here
+        bool checkSelfCollision();  // added for feature now
 
     private:
         

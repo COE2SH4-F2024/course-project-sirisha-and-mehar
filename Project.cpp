@@ -4,24 +4,16 @@
 
 #include "GameMechs.h"
 #include "Player.h"
-#include "Food.h" // added now
+#include "Food.h" 
 using namespace std;
 
 #define DELAY_CONST 100000
-// added for iteration 0 (same size as ppas)
-//# define HEIGHT 10
-//# define WIDTH 20
 
+// initalize the pointers 
+Player *myPlayer; 
+GameMechs *myGM; 
+Food *myFood; 
 
-Player *myPlayer; // points to player 
-GameMechs *myGM; // pointers to gamemechs 
-Food *myFood; // added now 
-
-// bool exitFlag; // dont need to expose here bc it is already in game mechanics but we can access game mechanices
-// using myGM and get the exitflag
-
-//Player *myPlayer; //instantiating player as pointer
-//on the heap 
 
 void Initialize(void);
 void GetInput(void);
@@ -30,7 +22,7 @@ void DrawScreen(void);
 void LoopDelay(void);
 void CleanUp(void);
 
-// initalize the pointers 
+
 
 int main(void)
 {
@@ -53,47 +45,31 @@ void Initialize(void)
 {
     MacUILib_init();
     MacUILib_clearScreen();
-
-
-    // removed bc it was causing a seg fault
-    //myPlayer = new Player(nullptr);  
-
-    //keepign it nullptr to test features
-    //exitFlag = false;
-    //put pointers under inirialize function
-    //myGM
-    //exitFlag = false;
     
     srand(time(NULL));
     myGM = new GameMechs(); // default game mechs so we alwasy have the same dimentions 30x15
-    // add back
-    // myPlayer = new Player(myGM, myFood); // my player keeps track of the pointer myGM, added myFood
+
     myPlayer = new Player(myGM);
-    myFood = new Food(); // new
+    myFood = new Food(); 
 
     objPosArrayList* playerPositions = myPlayer->getPlayerPos();
     objPos headPos = playerPositions->getHeadElement();
    
-    // add back
     myFood->generateFood(headPos); // start by generating food in a random positon on the baord 
 }
 
 void GetInput(void)
 {
-    // Assuming you are collecting asynchronous input
-    char input = myGM->getInput();  // Get the input character from the game mechanics
+   
+   char input = myGM->getInput();
+   
+   if(input ==27)
+   {
+    myGM->setExitTrue();
+   }
 
-    // Check for the ESC key (ASCII 27)
-    if (input == 27) {
-        myGM->setExitTrue();  // Set the exit flag to true to stop the game loop
-    }
-    else {
-        myGM->collectAsyncInput(); // Handle other inputs normally
-    }
-   // get the input from the myGm object 
-   // .input = myGM->getInput(); 
-   //char input = myGM->getInput();
    myGM->collectAsyncInput(); 
+
   
 }
 
@@ -103,11 +79,7 @@ void RunLogic(void)
     myPlayer->movePlayer();
     myPlayer->updatePlayerDir();
 
-    // make sure there is no ovelap 
-   // add back
-    //if (myPlayer->getPlayerPos().pos->x == myFood->getFoodPos().pos->x && myPlayer->getPlayerPos().pos->y == myFood->getFoodPos().pos->y) {
-    //    myFood->generateFood(myPlayer->getPlayerPos()); // Generate new food, blockOff is the playerpositon 
-    //}
+
     objPosArrayList* playerPositions = myPlayer->getPlayerPos();
     objPos headPos = playerPositions->getHeadElement();
 
@@ -116,20 +88,14 @@ void RunLogic(void)
     if (headPos.pos->x == myFood->getFoodPos().pos->x && headPos.pos->y == myFood->getFoodPos().pos->y) {
         // Generate new food that does not overlap with player positions
         myFood->generateFood(headPos);
-        
+        myGM->incrementScore(); 
     }
-    else{
+    else
+    {
         playerPositions->removeTail();
 
     }
    
-
-    
-    //myGm->getInput(); 
-// have to come back with 1A content and use getter methid for input char, 
-// choosing corr action , then clearing using the myGM pointer pointng to gamemechs
-// add ppa2 switch case and add use the pointer for reference on input and then clearing it
- 
     
 }
 
@@ -137,24 +103,24 @@ void DrawScreen(void)
 {
     MacUILib_clearScreen();  
     //you will need to implement a copy assignment operator
-    //to make this lien work
+    //to make this line work
     objPosArrayList* playerPos = myPlayer->getPlayerPos();
     int playerSize = playerPos->getSize(); 
     objPos headPos = playerPos->getHeadElement();
 
 
 
-    objPos foodPos = myFood->getFoodPos(); // just added 
+    objPos foodPos = myFood->getFoodPos(); 
     // playerPos.pos->x gets the x value
     // playerPos.pos->y gets the y value
     // playerPos.symbl-> gets the symnol
-    //put ppa3 board drawing function in here  
+     
+   
 
     // add back
     MacUILib_printf("Player[x,y]=[%d,%d], %c\n",headPos.pos->x, headPos.pos->y, headPos.symbol);
     MacUILib_printf("Generated food at [%d, %d]\n", foodPos.pos->x, foodPos.pos->y);
-    
-    //MacUILib_printf("You have left the game!\n", myGM->setExitTrue());
+    MacUILib_printf("Score: %d\n", myGM->getScore());
     // using macuilib stll because here its asynhronous input system so not using cout yet
 
     //MacUILib_clearScreen();   
@@ -208,17 +174,34 @@ void DrawScreen(void)
         }
         MacUILib_printf("\n"); // new line before next row starts 
     }
-    if (myGM->getExitFlagStatus()==1){
-        MacUILib_printf("You have left the game!\n"); //display if we esp out of the game
+    
+    if (myGM->getExitFlagStatus()==1)
+    {
+        
+        MacUILib_printf("You have left the game!\n");
         MacUILib_Delay(1000000);
-
     }
-    if (myGM->getLoseFlagStatus()) {
-        MacUILib_printf("Game Over! You lost!\n");
-    } 
-    //else {
-        //MacUILib_printf("Game Over! You exited the game!\n");
-   // }
+    
+    /*if(myGM->getLoseFlagStatus()==1)
+    {
+        MacUILib_printf("You have lost the game!\n");
+        //MacUILib_Delay(1000000);
+        
+    }
+    */
+    
+    
+    if(myPlayer->checkSelfCollision()==true)
+    {
+        MacUILib_printf("You have lost the game!\n");
+        MacUILib_Delay(1000000);
+        
+    }
+    
+    
+    
+
+    
     
 }
 
@@ -240,4 +223,5 @@ void CleanUp(void)
     delete myPlayer;
     delete myGM;
     delete myFood; // just added 
+   
 }
