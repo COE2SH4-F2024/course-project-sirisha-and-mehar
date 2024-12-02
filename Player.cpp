@@ -23,6 +23,9 @@ Player::Player(GameMechs* thisGMRef)//*we asume gamechanics is the border for no
 
     //playerPos.pos = new Pos;
 
+    //objPos headPos(thisGMRef->getBoardSizeX()/2, thisGMRef->getBoardSizeY()/2, '@');//headposition
+
+    //playerPosList->insertHead(headPos); //now we have a list containing one head position
     //setting the intial player position to the center of the board
     //playerPos.pos->x = mainGameMechsRef->getBoardSizeX()/2;
     //playerPos.pos->y = mainGameMechsRef->getBoardSizeY()/2;
@@ -185,9 +188,9 @@ void Player::movePlayer()
             // calculate the new psotion of the head using the temp objpos
 
             case UP:
-            if (playerPos.pos->y >1)
+            if (PlayerPos.pos->y >1)
             {
-                playerPos.pos->y -=1;
+                PlayerPos.pos->y -=1;
             }
             else
             {
@@ -239,6 +242,10 @@ void Player::movePlayer()
     // if no ovwerlap remove tail 
 
 
+        // then if overlapped food consumed and DO NOT REMOVE SNAKE TAIL
+        // then take respective actions to increase the score
+
+        //Iter3 if no overlap remove the tail and complete movement 
  
 }
 

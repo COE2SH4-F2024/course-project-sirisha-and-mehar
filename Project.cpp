@@ -174,7 +174,6 @@ void DrawScreen(void)
             {
                 MacUILib_printf("#");
                 
-             
             }
 
 
